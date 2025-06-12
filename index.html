@@ -20,7 +20,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="https://i.imgur.com/7XJkL0l.jpg" class="logo" alt="Donna Diva Logo">
+        <img src="https://i.imgur.com/QYmjaJp.png" class="logo" alt="Donna Diva Logo">
     </div>
     <div class="container my-5">
         <div id="articles" class="row row-cols-1 row-cols-md-3 g-4"></div>
@@ -29,11 +29,12 @@
     <script>
         async function fetchArticles() {
             try {
-                // Usa un proxy CORS per aggirare restrizioni (es. corsproxy.github.io)
-                const proxyUrl = 'https://corsproxy.github.io/?' + encodeURIComponent('https://donnadivait.blogspot.com/feeds/posts/default');
+                // Usa un proxy CORS per aggirare restrizioni
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/https://donnadivait.blogspot.com/feeds/posts/default';
                 const response = await fetch(proxyUrl, {
                     headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+                        'Origin': 'https://terraostile1.github.io'
                     }
                 });
                 if (!response.ok) {
@@ -46,10 +47,10 @@
                     throw new Error('Errore di parsing del feed RSS');
                 }
                 const items = xml.querySelectorAll("entry");
-                let html = '';
                 if (items.length === 0) {
                     throw new Error('Nessun articolo trovato nel feed');
                 }
+                let html = '';
                 items.forEach(item => {
                     const title = item.querySelector("title").textContent;
                     const link = item.querySelector("link[rel='alternate']").getAttribute("href");
